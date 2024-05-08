@@ -21,3 +21,5 @@ lerna-debug.log*
 
 ExtensionCache/
 settings/
+
+!src/userplugins/vc-message-logger-enhanced/components/settings/
