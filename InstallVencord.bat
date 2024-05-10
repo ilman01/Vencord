@@ -1,1 +1,1 @@
-python InstallVencord.py
+node InstallVencord.js
