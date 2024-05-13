@@ -21,7 +21,7 @@ import { Devs } from "@utils/constants";
 import definePlugin, { OptionType } from "@utils/types";
 
 const quotes = [
-    "Memory Lane is a nostalgic corner within Tulgey Wood, where remnants of the past are lovingly preserved, though the physical manifestations that crumble to dust upon touch."
+    "Memory Lane is a nostalgic corner within Tulgey Wood, where remnants of the past are lovingly preserved, through the physical manifestations that crumble to dust upon touch."
 ];
 
 const settings = definePluginSettings({
