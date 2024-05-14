@@ -21,7 +21,18 @@ import { Devs } from "@utils/constants";
 import definePlugin, { OptionType } from "@utils/types";
 
 const quotes = [
-    "Memory Lane is a nostalgic corner within Tulgey Wood, where remnants of the past are lovingly preserved, through the physical manifestations that crumble to dust upon touch."
+    "Memory Lane is a nostalgic corner within Tulgey Wood, where remnants of the past are lovingly preserved, through the physical manifestations that crumble to dust upon touch.",
+    "Alice uses a magical whisk that once belonged to her great-grandmother, the original Alice.",
+    "The Wonderland Bakery is shaped like a teapot and has more rooms inside than meet the eye. It's not just a place to bake, but a playground for creativity and fun.",
+    "In the bakery, utensils can stir, mix, and scoop on their own.",
+    "Oven can understand Alice and communicates through dings, whistles, and steam.",
+    "The Cold Cupboard is a deep freezer that requires trekking through snow to access.",
+    "Alice's recipes are not just about food; they connect her to her family's history and traditions, making baking a personal and emotional journey.",
+    "Wonderland is home to various families like the Dodos, Flowers, and Caterpillars, each with unique culinary traditions that Alice and her friends explore through their baking adventures.",
+    "Cookie, the magical cookbook, provides not only recipes but also stories from Alice's great-grandmother, inspiring Alice in her baking endeavors.",
+    "At the top of the teapot-shaped bakery, Alice has a loft where she relaxes and dreams up new recipes, often with her cat Dinah by her side.",
+    "Alice loves to hum, sing, and talk to herself while baking, which adds a fun and musical element to her culinary adventures."
+
 ];
 
 const settings = definePluginSettings({
