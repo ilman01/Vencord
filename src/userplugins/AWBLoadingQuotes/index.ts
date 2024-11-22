@@ -18,9 +18,10 @@
 
 import { definePluginSettings } from "@api/Settings";
 import { Devs } from "@utils/constants";
+import { Logger } from "@utils/Logger";
 import definePlugin, { OptionType } from "@utils/types";
 
-const quotes = [
+const quotesArray = [
     "Memory Lane is a nostalgic corner within Tulgey Wood, where remnants of the past are lovingly preserved, through the physical manifestations that crumble to dust upon touch.",
     "Alice uses a magical whisk that once belonged to her great-grandmother, the original Alice.",
     "The Wonderland Bakery is shaped like a teapot and has more rooms inside than meet the eye. It's not just a place to bake, but a playground for creativity and fun.",
@@ -32,50 +33,60 @@ const quotes = [
     "Cookie, the magical cookbook, provides not only recipes but also stories from Alice's great-grandmother, inspiring Alice in her baking endeavors.",
     "At the top of the teapot-shaped bakery, Alice has a loft where she relaxes and dreams up new recipes, often with her cat Dinah by her side.",
     "Alice loves to hum, sing, and talk to herself while baking, which adds a fun and musical element to her culinary adventures."
-
 ];
+
+const noQuotesQuote = "Did you really disable all loading quotes? What a buffoon you are...";
 
 const settings = definePluginSettings({
     replaceEvents: {
-        description: "Replace Event Quotes too",
+        description: "Should this plugin also apply during events with special event-themed quotes? (e.g. Halloween)",
         type: OptionType.BOOLEAN,
         default: true
-    }
+    },
+    enableDiscordPresetQuotes: {
+        description: "Enable Discord's preset quotes (including event quotes, during events)",
+        type: OptionType.BOOLEAN,
+        default: false
+    },
 });
 
 export default definePlugin({
     name: "AWBLoadingQuotes",
-    description: "Replace Discords loading quotes with Alice's Wonderland Bakery facts",
-    authors: [Devs.Ven, Devs.KraXen72, Devs.Nobody],
+    description: "Replace Discord's loading quotes with Alice's Wonderland Bakery facts",
+    authors: [Devs.Ven, Devs.KraXen72, Devs.UlyssesZhan, { name: "ilman01", id: BigInt(344064573701095424) }],
 
     settings,
 
     patches: [
         {
-            find: ".LOADING_DID_YOU_KNOW}",
+            find: "#{intl::LOADING_DID_YOU_KNOW}",
             replacement: [
                 {
-                    match: /"_loadingText",function\(\)\{/,
-                    replace: "$&return $self.quote;",
+                    match: /"_loadingText".+?(?=(\i)\[.{0,10}\.random)/,
+                    replace: "$&$self.mutateQuotes($1),",
                 },
                 {
-                    match: /"_eventLoadingText",function\(\)\{/,
-                    replace: "$&return $self.quote;",
+                    match: /"_eventLoadingText".+?(?=(\i)\[.{0,10}\.random)/,
+                    replace: "$&$self.mutateQuotes($1),",
                     predicate: () => settings.store.replaceEvents
                 }
-            ],
+            ]
         },
     ],
 
-    xor(quote: string) {
-        const key = "read if cute";
-        const codes = Array.from(quote, (s, i) => s.charCodeAt(0) ^ (i % key.length));
-        return String.fromCharCode(...codes);
-    },
+    mutateQuotes(quotes: string[]) {
+        try {
+            const { enableDiscordPresetQuotes } = settings.store;
 
-    get quote() {
-        const randomIndex = Math.floor(Math.random() * quotes.length);
-        return quotes[randomIndex];
+            if (!enableDiscordPresetQuotes)
+                quotes.length = 0;
+
+            quotes.push(...quotesArray);
+
+            if (!quotes.length)
+                quotes.push(noQuotesQuote);
+        } catch (e) {
+            new Logger("LoadingQuotes").error("Failed to mutate quotes", e);
+        }
     }
-    
 });
